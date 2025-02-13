@@ -1,0 +1,58 @@
+{
+  "buildCommand" : {
+    "command" : "build",
+    "skipDependencies" : false,
+    "style" : "buildOnly"
+  },
+  "configuredTargets" : [
+    {
+      "guid" : "0c979ed751c26cb50409be4a2f6f7d3b39a2000a7d2ee8c78c385bdc950010e4"
+    }
+  ],
+  "containerPath" : "/Users/dale8nson/dev/ns/ns.xcodeproj",
+  "continueBuildingAfterErrors" : false,
+  "dependencyScope" : "workspace",
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "build",
+    "activeArchitecture" : "arm64",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : false,
+      "platform" : "macosx",
+      "sdk" : "macosx15.2",
+      "sdkVariant" : "macos",
+      "supportedArchitectures" : [
+        "arm64e",
+        "arm64",
+        "x86_64"
+      ],
+      "targetArchitecture" : "arm64"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "/Users/dale8nson/dev/ns/Build/Intermediates.noindex",
+      "buildProductsPath" : "/Users/dale8nson/dev/ns/Build",
+      "derivedDataPath" : "/Users/dale8nson/Library/Developer/Xcode/DerivedData",
+      "indexDataStoreFolderPath" : "/Users/dale8nson/Library/Developer/Xcode/DerivedData/ns-ceigbjjksmdgiuflnakqynzjdfts/Index.noindex/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Users/dale8nson/Library/Developer/Xcode/DerivedData/ns-ceigbjjksmdgiuflnakqynzjdfts/Index.noindex/PrecompiledHeaders",
+      "pchPath" : "/Users/dale8nson/dev/ns/Build/Intermediates.noindex/PrecompiledHeaders"
+    },
+    "configurationName" : "Debug",
+    "overrides" : {
+      "synthesized" : {
+        "table" : {
+          "ENABLE_PREVIEWS" : "NO",
+          "ENABLE_XOJIT_PREVIEWS" : "YES",
+          "ONLY_ACTIVE_ARCH" : "YES"
+        }
+      }
+    }
+  },
+  "schemeCommand" : "launch",
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}
