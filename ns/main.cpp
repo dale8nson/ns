@@ -77,6 +77,31 @@ vector<string> split(string str, const char delim = ' ') {
   return vec;
 }
 
+size_t end_of(string str, string subject) {
+  char c{};
+  string match{};
+  size_t i{0};
+
+  while (match != subject && i < str.length()){
+    c = str[i]; i++;
+    if(c == subject[0]) {
+      match += c;
+      for(size_t j{1}; (c = str[i]) == subject[j] && j < subject.length(); j++) {match += c; i++; }
+      println("match: {}", match);
+      if(match == subject) return i;
+      match.clear();
+    }
+  }
+  return i;
+}
+
+void insert_after(string insert_str, string &into_str, string after_str) {
+  size_t p = end_of(into_str, after_str);
+  println("p: {}", p);
+  into_str.insert(p, insert_str);
+}
+
+
 string import_string(vector<string> args, string flag = "-i") {
   
   ostringstream oss{};
@@ -268,10 +293,37 @@ void write_redux_files(string cwd) {
           "  return <Provider store={storeRef.current}>{children}</Provider>\n}\n";
     sp.close();
   }
+  
+  
+  
 }
 
 void add_redux(string cwd) {
   write_redux_files(cwd);
+  
+  string str{};
+  if(fstream rl{cwd + "/app/layout.tsx", ios_base::out | ios_base::in}; rl) {
+    rl.unsetf(ios_base::skipws);
+    char c{};
+    while ((rl >> c) && !rl.eof()) str += c;
+    
+    insert_after("import { StoreProvider } from \"@/components/StoreProvider\"\n", str, "globals.css\"\n");
+    size_t p = end_of(str, "return (\n");
+    println("p: {}", p);
+    p += end_of(str.substr(p), ">\n");
+    println("p: {}", p);
+    str.insert(p, "        <StoreProvider>\n");
+    insert_after("        </StoreProvider>\n", str,"</body>\n" );
+    
+    rl.close();
+  }
+  
+  println("{}", str);
+
+  
+  if(fstream rl{cwd + "/app/layout.tsx", ios_base::out | ios_base::trunc}; rl) {
+    rl << str;
+  }
 
   system("npm i react-redux @reduxjs/toolkit");
 }
@@ -306,12 +358,13 @@ void scaffold(string cwd, vector<string> args) {
   fs::path app_dir{cwd + "/app"};
 
   fstream rl{cwd + "/app/layout.tsx", ios_base::out | ios_base::trunc};
-  rl << "import type { Metadata } from \"next\";\n"
-     << "import \"./globals.css\";\n";
+  rl << "import type { Metadata } from \"next\"\n"
+     << "import \"./globals.css\"\n";
   if (redux)
-    rl << "import { StoreProvider } from \"@/components/StoreProvider\";\n\n\n";
+    rl << "import { StoreProvider } from \"@/components/StoreProvider\"\n\n\n";
+  else rl << "\n\n";
   rl << "export const metadata: Metadata = {\ntitle: \"\",\ndescription: \"\",\nkeywords: []\n}\n\n"
-        "export default function RootLayout({\n  children,\n}: Readonly<{\n  children: React.ReactNode;\n"
+        "export default function RootLayout({\n  children,\n}: Readonly<{\n  children: React.ReactNode\n"
         "}>) {\nreturn (\n    <html lang=\"en\" className=\"min-[0px]:w-screen min-[0px]:h-screen\">\n";
 
   if (redux)
@@ -384,7 +437,8 @@ int main(int argc, const char *argv[]) {
     break;
   }
   case cmd::add:
-
+      string sub_cmd{args[1]};
+      if(sub_cmd == "redux") add_redux(cwd);
     break;
   }
 
